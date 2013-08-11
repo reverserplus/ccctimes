@@ -30,8 +30,8 @@ void httpebble_error(int error_code);
 
 //Global Variable Declations
 Window window;
-TextLayer layer_text1;
-TextLayer layer_text2;
+TextLayer balt_time_text;
+TextLayer how_time_text;
 TextLayer balt_label_text;
 TextLayer how_label_text;
 AppTimerHandle timer_handle;
@@ -69,7 +69,7 @@ void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
 	timer_handle = app_timer_send_event(ctx, 30000 /* milliseconds */, COOKIE_MY_TIMER);
 }
 
-//Click config provider (needs more data)
+//Click config provider (needs more detail)
 void click_config_provider(ClickConfig **config, Window *window) {
   config[BUTTON_ID_SELECT]->click.handler = (ClickHandler) select_single_click_handler;
 }
@@ -98,10 +98,10 @@ void http_success(int32_t request_id, int http_status, DictionaryIterator* recei
 
 //Accessing the data from the returned tuple and write the text layers with the result data
   Tuple* tuple1 = dict_find(received, 0);
-  text_layer_set_text(&layer_text1, tuple1->value->cstring);
+  text_layer_set_text(&balt_time_text, tuple1->value->cstring);
  
   Tuple* tuple2 = dict_find(received, 1);
-  text_layer_set_text(&layer_text2, tuple2->value->cstring);
+  text_layer_set_text(&how_time_text, tuple2->value->cstring);
 }
 
 //HTTP error handling
@@ -136,12 +136,12 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text_alignment(&balt_label_text, GTextAlignmentCenter);
   layer_add_child(&window.layer, &balt_label_text.layer);
 	
-  text_layer_init(&layer_text1, GRect(0, 30, 144, 30));
-  text_layer_set_text_color(&layer_text1, GColorBlack);
-  text_layer_set_background_color(&layer_text1, GColorClear);
-  text_layer_set_font(&layer_text1, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-  text_layer_set_text_alignment(&layer_text1, GTextAlignmentCenter);
-  layer_add_child(&window.layer, &layer_text1.layer);
+  text_layer_init(&balt_time_text, GRect(0, 30, 144, 30));
+  text_layer_set_text_color(&balt_time_text, GColorBlack);
+  text_layer_set_background_color(&balt_time_text, GColorClear);
+  text_layer_set_font(&balt_time_text, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  text_layer_set_text_alignment(&balt_time_text, GTextAlignmentCenter);
+  layer_add_child(&window.layer, &balt_time_text.layer);
  
   text_layer_init(&how_label_text, GRect(0, 80, 144, 30));
   text_layer_set_text_color(&how_label_text, GColorBlack);
@@ -150,12 +150,12 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text_alignment(&how_label_text, GTextAlignmentCenter);
   layer_add_child(&window.layer, &how_label_text.layer);
 	
-  text_layer_init(&layer_text2, GRect(0, 100, 144, 30));
-  text_layer_set_text_color(&layer_text2, GColorBlack);
-  text_layer_set_background_color(&layer_text2, GColorClear);
-  text_layer_set_font(&layer_text2, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-  text_layer_set_text_alignment(&layer_text2, GTextAlignmentCenter);
-  layer_add_child(&window.layer, &layer_text2.layer);
+  text_layer_init(&how_time_text, GRect(0, 100, 144, 30));
+  text_layer_set_text_color(&how_time_text, GColorBlack);
+  text_layer_set_background_color(&how_time_text, GColorClear);
+  text_layer_set_font(&how_time_text, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  text_layer_set_text_alignment(&how_time_text, GTextAlignmentCenter);
+  layer_add_child(&window.layer, &how_time_text.layer);
 
   text_layer_set_text(&balt_label_text, "Baltimore St.");
   text_layer_set_text(&how_label_text, "Howard St.");	
@@ -218,5 +218,5 @@ void httpebble_error(int error_code) {
     }
   }
  
-  text_layer_set_text(&layer_text1, error_message);
+  text_layer_set_text(&balt_time_text, error_message);
 }
